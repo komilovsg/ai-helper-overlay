@@ -3,23 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GPT Ответ</title>
+    <title>ChatGPT Assistant</title>
     <style>
       body {
-        margin: 0;
         background-color: rgba(0, 0, 0, 0.6);
         color: white;
         font-family: sans-serif;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        -webkit-app-region: drag;
       }
+
       #output {
         white-space: pre-wrap;
+      }
+
+      button {
+        -webkit-app-region: no-drag; /* 👈 Кнопку НЕ перетаскиваем */
+        cursor: pointer;
+        padding: 10px 20px;
+        background-color: transparent; /* Прозрачный фон */
+        border: 0.5px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 8px;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #182c19;
+      }
+
+      textarea {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: transparent; /* Прозрачный фон */
+        /* background-color: rgba(255, 255, 255, 0.1); Полупрозрачный фон */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        min-height: 100px;
+        border-radius: 8px;
+        color: white;
+      }
+
+      #response {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: transparent; /* Прозрачный фон */ /* Полупрозрачный фон */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        min-height: 100px;
+        border-radius: 8px;
       }
     </style>
   </head>
   <body>
-    <div id="output">Ожидание ответа...</div>
-    <button id="voice">🎙️ Сказать</button>
+    <div id="output">MayBe</div>
+    <!-- <button id="voice">🎙️ Сказать</button> -->
+
+    <textarea id="inputText" placeholder="Введите текст..."></textarea>
+    <button id="sendButton">Отправить</button>
+
+    <div id="response"></div>
 
     <script src="./renderer.js"></script>
   </body>

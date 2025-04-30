@@ -1,7 +1,10 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  onReply: (callback) =>
-    ipcRenderer.on("chatgpt-reply", (event, value) => callback(value)),
-  sendToGPT: (text) => ipcRenderer.send("voice-input", text),
+  sendToGPT: (text) => ipcRenderer.send("text-input", text),
+  onChatGptReply: (callback) => {
+    ipcRenderer.on("chatgpt-reply", (_event, reply) => {
+      callback(reply); // <-- вот так, только `reply`, без `event`
+    });
+  },
 });

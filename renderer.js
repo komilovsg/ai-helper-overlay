@@ -1,5 +1,10 @@
 const button = document.getElementById("voice");
+const sendButton = document.getElementById("sendButton");
+const inputText = document.getElementById("inputText");
+const outputDiv = document.getElementById("output");
+const responseDiv = document.getElementById("response");
 
+// Обработчик для кнопки записи речи
 button.addEventListener("click", () => {
   const recognition = new (window.SpeechRecognition ||
     window.webkitSpeechRecognition)();
@@ -10,21 +15,37 @@ button.addEventListener("click", () => {
 
   recognition.onresult = (event) => {
     const spokenText = event.results[0][0].transcript;
-    document.getElementById("output").textContent =
-      "🎧 Распознано: " + spokenText;
+    outputDiv.textContent = "🎧 Распознано: " + spokenText;
 
-    // Отправляем на обработку в Electron
+    // Отправляем распознанный текст на обработку в Electron
     window.electronAPI.sendToGPT(spokenText);
   };
 
   // Обработка ошибки распознавания
   recognition.onerror = (event) => {
-    document.getElementById("output").textContent =
-      "Ошибка распознавания: " + event.error;
+    outputDiv.textContent = "Ошибка распознавания: " + event.error;
   };
 
   // Восстановление текста кнопки через 5 секунд
   setTimeout(() => {
     button.textContent = "🎙️ Сказать";
   }, 5000);
+});
+
+// Обработчик для кнопки отправки текста
+sendButton.addEventListener("click", () => {
+  const text = inputText.value.trim();
+  if (text) {
+    outputDiv.textContent = "Отправлено: " + text;
+
+    // Отправляем текст из поля ввода на обработку в Electron
+    window.electronAPI.sendToGPT(text);
+  }
+});
+
+// Получаем ответ от ChatGPT и отображаем его
+window.electronAPI.onChatGptReply((reply) => {
+  const formatted =
+    typeof reply === "object" ? JSON.stringify(reply, null, 2) : reply;
+  responseDiv.innerHTML = `<strong>Ответ:</strong><pre>${formatted}</pre>`;
 });
