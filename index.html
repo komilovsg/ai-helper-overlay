@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPT Ответ</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      #output {
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="output">Ожидание ответа...</div>
+    <button id="voice">🎙️ Сказать</button>
+    <script>
+      const button = document.getElementById("voice");
+
+      button.addEventListener("click", () => {
+        const recognition = new (window.SpeechRecognition ||
+          window.webkitSpeechRecognition)();
+        recognition.lang = "ru-RU";
+        recognition.start();
+
+        recognition.onresult = (event) => {
+          const spokenText = event.results[0][0].transcript;
+          document.getElementById("output").textContent =
+            "🎧 Распознано: " + spokenText;
+
+          // Отправим на обработку
+          window.electronAPI.sendToGPT(spokenText);
+        };
+      });
+    </script>
+    <script>
+      window.electronAPI.onReply((message) => {
+        document.getElementById("output").textContent = message;
+      });
+    </script>
+  </body>
+</html>
+*/
