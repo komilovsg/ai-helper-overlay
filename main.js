@@ -1,6 +1,3 @@
-// main.js - точка входа для Electron
-require("dotenv").config();
-
 const {
   app,
   BrowserWindow,
@@ -22,7 +19,7 @@ function createWindow() {
     frame: false,
     transparent: true,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "preload.js"), // Подключаем preload для изоляции
       contextIsolation: true,
       nodeIntegration: false,
     },
@@ -52,7 +49,6 @@ app.on("will-quit", () => {
   globalShortcut.unregisterAll();
 });
 
-// Функция отправки текста в ChatGPT
 async function sendToChatGPT(prompt) {
   try {
     const response = await axios.post(
@@ -81,10 +77,7 @@ async function sendToChatGPT(prompt) {
   }
 }
 
-// preload.js
-const { contextBridge, ipcRenderer } = require("electron");
-
-contextBridge.exposeInMainWorld("electronAPI", {
-  onReply: (callback) =>
-    ipcRenderer.on("chatgpt-reply", (event, value) => callback(value)),
+ipcMain.on("voice-input", (event, text) => {
+  console.log("Voice Input:", text);
+  sendToChatGPT(text);
 });

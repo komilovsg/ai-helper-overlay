@@ -1,3 +1,5 @@
+const { contextBridge, ipcRenderer } = require("electron");
+
 contextBridge.exposeInMainWorld("electronAPI", {
   onReply: (callback) =>
     ipcRenderer.on("chatgpt-reply", (event, value) => callback(value)),

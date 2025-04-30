@@ -17,13 +17,22 @@
 ## 📁 Структура проекта
 
 ai-helper-overlay/
-├── main.js
-├── preload.js
-├── index.html
-├── .env
-├── package.json
-├── package-lock.json
-└── node_modules/
+├── dist/
+│ └── win-unpacked/ # Скомпилированное десктопное приложение
+│ ├── locales/
+│ ├── resources/
+│ ├── AI Helper Overlay.exe
+│ ├── другие системные файлы и библиотеки
+│ └── конфигурационные .yml файлы
+├── node_modules/ # Установленные зависимости
+├── .env # Переменные окружения
+├── .gitignore # Исключения Git
+├── index.html # Основной HTML интерфейс
+├── main.js # Главный процесс Electron
+├── preload.js # Скрипт, подключаемый до загрузки DOM
+├── package.json # Манифест проекта
+├── package-lock.json # Фиксация зависимостей
+└── README.md # Документация проекта
 
 ---
 
