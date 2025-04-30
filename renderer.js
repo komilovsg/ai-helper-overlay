@@ -1,3 +1,4 @@
+//renderer.js
 const button = document.getElementById("voice");
 const sendButton = document.getElementById("sendButton");
 const inputText = document.getElementById("inputText");
@@ -36,6 +37,7 @@ button.addEventListener("click", () => {
 sendButton.addEventListener("click", () => {
   const text = inputText.value.trim();
   if (text) {
+    console.log("Send Text:", text);
     outputDiv.textContent = "Отправлено: " + text;
 
     // Отправляем текст из поля ввода на обработку в Electron
@@ -45,6 +47,7 @@ sendButton.addEventListener("click", () => {
 
 // Получаем ответ от ChatGPT и отображаем его
 window.electronAPI.onChatGptReply((reply) => {
+  console.log("Ответ от ChatGPT:", reply); // Логируем ответ
   const formatted =
     typeof reply === "object" ? JSON.stringify(reply, null, 2) : reply;
   responseDiv.innerHTML = `<strong>Ответ:</strong><pre>${formatted}</pre>`;

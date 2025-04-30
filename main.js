@@ -14,14 +14,13 @@ require("dotenv").config();
 // const token = process.env.OPENAI_API_KEY;
 // const token = process.env.DEEPSEEKAI_API_KEY;
 const token = process.env.FREEDEEPSEEKAI_API_KEY;
-console.log("Token:", token);
 
 let win;
 
 function createWindow() {
   win = new BrowserWindow({
     width: 400,
-    height: 450,
+    height: 500,
     alwaysOnTop: true,
     frame: false,
     transparent: true,
@@ -59,11 +58,8 @@ app.on("will-quit", () => {
 async function sendToChatGPT(prompt) {
   try {
     const response = await axios.post(
-      // "https://api.openai.com/v1/chat/completions",
-      // "https://api.deepseek.com/v1/query",
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        // model: "gpt-3.5-turbo",
         model: "deepseek/deepseek-r1:free",
         messages: [
           {
@@ -103,8 +99,7 @@ async function sendToChatGPT(prompt) {
 
 //text
 ipcMain.on("text-input", async (event, userInput) => {
-  console.log("Text Input:", userInput); // должно быть на русском
-
+  console.log("Text Input:", userInput); // должно выводить в консоль текст, который вы отправляете
   sendToChatGPT(userInput);
 });
 
